@@ -1,0 +1,48 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// The person who offers appointments
+model User {
+  id            String         @id @default(cuid())
+  email         String         @unique
+  name          String
+  timezone      String         @default("UTC")
+  slug          String         @unique  // like "johndoe" for URLs
+  workingHours  WorkingHours[]
+  bookings      Booking[]
+  createdAt     DateTime       @default(now())
+}
+
+// When someone is available (e.g., Mon-Fri 9-5)
+model WorkingHours {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  dayOfWeek   Int      // 0=Sunday, 1=Monday, 6=Saturday
+  startTime   String   // "09:00"
+  endTime     String   // "17:00"
+  timezone    String
+  
+  @@unique([userId, dayOfWeek])
+}
+
+// An actual booked appointment
+model Booking {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  attendeeName  String
+  attendeeEmail String
+  startTime     DateTime // Always stored in UTC
+  endTime       DateTime // Always stored in UTC
+  timezone      String   // Attendee's timezone
+  status        String   @default("confirmed")
+  createdAt     DateTime @default(now())
+  
+  @@index([userId, startTime, endTime, status])
+}
