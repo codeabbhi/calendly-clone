@@ -183,7 +183,7 @@ export default function BookingInterface({ user, mentors }: BookingInterfaceProp
               </div>
             )}
           </div>
-        </div>
+        </motion.div>
         <button 
           onClick={() => window.location.reload()}
           className="px-10 py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-indigo-600 transition-all shadow-xl active:scale-95"
@@ -448,7 +448,7 @@ export default function BookingInterface({ user, mentors }: BookingInterfaceProp
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         placeholder="John Doe"
-                        className="w-full pl-12 pr-6 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:border-indigo-600 focus:shadow-lg focus:shadow-indigo-100/30 outline-none font-semibold transition-all"
+                        className="w-full pl-12 pr-6 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:border-indigo-600 focus:shadow-lg focus:shadow-indigo-100/30 hover:border-indigo-300 outline-none font-semibold transition-all"
                       />
                     </div>
                   </div>
@@ -463,10 +463,13 @@ export default function BookingInterface({ user, mentors }: BookingInterfaceProp
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         placeholder="john@example.com"
-                        className="w-full pl-12 pr-6 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:border-indigo-600 focus:shadow-lg focus:shadow-indigo-100/30 outline-none font-semibold transition-all"
+                        className="w-full pl-12 pr-6 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:border-indigo-600 focus:shadow-lg focus:shadow-indigo-100/30 hover:border-indigo-300 outline-none font-semibold transition-all"
                       />
                     </div>
-                  <div className="space-y-2">                    <label className="text-sm font-bold text-slate-700 uppercase tracking-widest">Additional Guests <span className="text-xs font-normal text-slate-400">(Optional)</span></label>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-slate-700 uppercase tracking-widest">Additional Guests <span className="text-xs font-normal text-slate-400">(Optional)</span></label>
                     <div className="relative">
                       <Users className="absolute left-4 top-4 w-5 h-5 text-indigo-400" />
                       <textarea
@@ -477,7 +480,7 @@ export default function BookingInterface({ user, mentors }: BookingInterfaceProp
                           additionalGuests: e.target.value.split('\n').filter(email => email.trim()) 
                         })}
                         placeholder="guest1@example.com&#10;guest2@example.com"
-                        className="w-full pl-12 pr-6 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:border-indigo-600 focus:shadow-lg focus:shadow-indigo-100/30 outline-none font-semibold transition-all resize-none"
+                        className="w-full pl-12 pr-6 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:border-indigo-600 focus:shadow-lg focus:shadow-indigo-100/30 hover:border-indigo-300 outline-none font-semibold transition-all resize-none"
                       />
                     </div>
                     <p className="text-xs text-slate-500 font-medium">Enter one email per line</p>
@@ -492,7 +495,7 @@ export default function BookingInterface({ user, mentors }: BookingInterfaceProp
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                         placeholder="+1 (555) 123-4567"
-                        className="w-full pl-12 pr-6 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:border-indigo-600 focus:shadow-lg focus:shadow-indigo-100/30 outline-none font-semibold transition-all"
+                        className="w-full pl-12 pr-6 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:border-indigo-600 focus:shadow-lg focus:shadow-indigo-100/30 hover:border-indigo-300 outline-none font-semibold transition-all"
                       />
                     </div>
                   </div>
@@ -506,7 +509,7 @@ export default function BookingInterface({ user, mentors }: BookingInterfaceProp
                         value={formData.company}
                         onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                         placeholder="Acme Corp"
-                        className="w-full pl-12 pr-6 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:border-indigo-600 focus:shadow-lg focus:shadow-indigo-100/30 outline-none font-semibold transition-all"
+                        className="w-full pl-12 pr-6 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:border-indigo-600 focus:shadow-lg focus:shadow-indigo-100/30 hover:border-indigo-300 outline-none font-semibold transition-all"
                       />
                     </div>
                   </div>
@@ -554,7 +557,7 @@ export default function BookingInterface({ user, mentors }: BookingInterfaceProp
                           value={formData.meetingLocation}
                           onChange={(e) => setFormData({ ...formData, meetingLocation: e.target.value })}
                           placeholder={formData.meetingType === 'video' ? 'https://zoom.us/j/...' : '123 Main St, City, State'}
-                          className="w-full pl-12 pr-6 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:border-indigo-600 focus:shadow-lg focus:shadow-indigo-100/30 outline-none font-semibold transition-all"
+                          className="w-full pl-12 pr-6 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:border-indigo-600 focus:shadow-lg focus:shadow-indigo-100/30 hover:border-indigo-300 outline-none font-semibold transition-all"
                         />
                       </div>
                     </div>
@@ -569,7 +572,7 @@ export default function BookingInterface({ user, mentors }: BookingInterfaceProp
                         value={formData.meetingTitle}
                         onChange={(e) => setFormData({ ...formData, meetingTitle: e.target.value })}
                         placeholder="Career Advice Session"
-                        className="w-full pl-12 pr-6 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:border-indigo-600 focus:shadow-lg focus:shadow-indigo-100/30 outline-none font-semibold transition-all"
+                        className="w-full pl-12 pr-6 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:border-indigo-600 focus:shadow-lg focus:shadow-indigo-100/30 hover:border-indigo-300 outline-none font-semibold transition-all"
                       />
                     </div>
                   </div>
@@ -583,7 +586,7 @@ export default function BookingInterface({ user, mentors }: BookingInterfaceProp
                         value={formData.notes}
                         onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                         placeholder="Anything else you'd like to share?"
-                        className="w-full pl-12 pr-6 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:border-indigo-600 focus:shadow-lg focus:shadow-indigo-100/30 outline-none font-semibold transition-all resize-none"
+                        className="w-full pl-12 pr-6 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:border-indigo-600 focus:shadow-lg focus:shadow-indigo-100/30 hover:border-indigo-300 outline-none font-semibold transition-all resize-none"
                       />
                     </div>
                   </div>
@@ -627,7 +630,8 @@ export default function BookingInterface({ user, mentors }: BookingInterfaceProp
         }
         .rdp-day {
           font-size: 1rem !important;
-          font-weight: 600 !important;
+          font-weight: 700 !important;
+          color: #334155 !important;
           transition: all 0.2s ease !important;
           border-radius: 14px !important;
         }
@@ -639,11 +643,11 @@ export default function BookingInterface({ user, mentors }: BookingInterfaceProp
           font-weight: 900 !important;
         }
         .rdp-day:hover:not(.rdp-day_selected):not(.rdp-day_disabled) {
-          background-color: var(--rdp-background-color) !important;
-          color: var(--rdp-accent-color) !important;
+          background-color: #e0e7ff !important;
+          color: #4338ca !important;
           transform: scale(1.1) !important;
           font-weight: 900 !important;
-          box-shadow: 0 4px 12px rgba(79, 70, 229, 0.1) !important;
+          box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15) !important;
         }
         .rdp-button:hover:not([disabled]) {
           background-color: #f1f5f9 !important;
