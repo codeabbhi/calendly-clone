@@ -8,8 +8,16 @@ import { sendBookingConfirmation } from '@/lib/email';
 // Types for our booking data
 interface BookingData {
   userId: string;
+  mentorId: string;
   attendeeName: string;
   attendeeEmail: string;
+  attendeePhone?: string;
+  attendeeCompany?: string;
+  additionalGuests?: string[];
+  meetingType?: string;
+  meetingLocation?: string;
+  meetingTitle?: string;
+  notes?: string;
   startTime: Date;
   slotDuration: number;
   attendeeTimezone: string;
@@ -85,15 +93,34 @@ export async function createBooking(data: BookingData): Promise<BookingResult> {
       const newBooking = await tx.booking.create({
         data: {
           userId: data.userId,
+          mentorId: data.mentorId,
           attendeeName: data.attendeeName,
           attendeeEmail: data.attendeeEmail,
+          attendeePhone: data.attendeePhone,
+          attendeeCompany: data.attendeeCompany,
+          additionalGuests: data.additionalGuests ? JSON.stringify(data.additionalGuests) : null,
+          meetingType: data.meetingType || 'video',
+          meetingLocation: data.meetingLocation,
+          meetingTitle: data.meetingTitle,
+          notes: data.notes,
           startTime: data.startTime,
           endTime: endTime,
           timezone: data.attendeeTimezone,
           status: 'confirmed'
         },
         include: {
-          user: true // Include user details for email
+          user: {
+            select: {
+              name: true,
+              email: true
+            }
+          },
+          mentor: {
+            select: {
+              name: true,
+              title: true
+            }
+          }
         }
       });
 

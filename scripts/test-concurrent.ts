@@ -6,6 +6,13 @@ import { prisma } from '../lib/prisma.js'
 async function testConcurrentBookings() {
   console.log('🧪 Testing concurrent booking protection...\n');
   
+  // Get the first mentor
+  const mentor = await prisma.mentor.findFirst();
+  if (!mentor) {
+    console.error('❌ No mentors available');
+    process.exit(1);
+  }
+  
   // Same time slot for both requests
   const tomorrow = addDays(new Date(), 1);
   tomorrow.setHours(15, 0, 0, 0); // 3:00 PM
@@ -15,6 +22,7 @@ async function testConcurrentBookings() {
   const [result1, result2] = await Promise.all([
     createBooking({
       userId: 'cmjphlfnx00003wbgqrdpmyds',
+      mentorId: mentor.id,
       attendeeName: 'Alice',
       attendeeEmail: 'alice@example.com',
       startTime,
@@ -23,6 +31,7 @@ async function testConcurrentBookings() {
     }),
     createBooking({
       userId: 'cmjphlfnx00003wbgqrdpmyds',
+      mentorId: mentor.id,
       attendeeName: 'Bob',
       attendeeEmail: 'bob@example.com',
       startTime,

@@ -10,6 +10,7 @@ export async function GET(request: Request) {
     const userId = searchParams.get('userId');
     const dateStr = searchParams.get('date');
     const viewerTz = searchParams.get('viewerTimezone') || 'UTC';
+    const duration = parseInt(searchParams.get('duration') || '30');
 
     if (!userId || !dateStr) {
       return NextResponse.json({ error: 'Missing userId or date' }, { status: 400 });
@@ -56,7 +57,7 @@ export async function GET(request: Request) {
       checkDate,
       user.workingHours,
       bookings,
-      30, // 30-minute slots
+      duration,
       user.timezone,
       viewerTz
     );

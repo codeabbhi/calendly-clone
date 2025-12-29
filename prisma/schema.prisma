@@ -15,6 +15,19 @@ model User {
   slug          String         @unique  // like "johndoe" for URLs
   workingHours  WorkingHours[]
   bookings      Booking[]
+  mentors       Mentor[]
+  createdAt     DateTime       @default(now())
+}
+
+// Mentors available for booking
+model Mentor {
+  id            String         @id @default(cuid())
+  userId        String
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name          String         // e.g., "John - Senior Mentor", "Alice - Career Coach"
+  title         String         // e.g., "Senior Mentor", "Career Coach"
+  bio           String?        // e.g., "10 years of experience"
+  bookings      Booking[]
   createdAt     DateTime       @default(now())
 }
 
@@ -33,16 +46,25 @@ model WorkingHours {
 
 // An actual booked appointment
 model Booking {
-  id            String   @id @default(cuid())
-  userId        String
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  attendeeName  String
-  attendeeEmail String
-  startTime     DateTime // Always stored in UTC
-  endTime       DateTime // Always stored in UTC
-  timezone      String   // Attendee's timezone
-  status        String   @default("confirmed")
-  createdAt     DateTime @default(now())
+  id                String   @id @default(cuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  mentorId          String
+  mentor            Mentor   @relation(fields: [mentorId], references: [id], onDelete: Cascade)
+  attendeeName      String
+  attendeeEmail     String
+  attendeePhone     String?
+  attendeeCompany   String?
+  additionalGuests  String?  // JSON array of email addresses
+  meetingType       String   @default("video") // "video", "phone", "in-person"
+  meetingLocation   String?  // Video link, phone number, or physical location
+  meetingTitle      String?
+  notes             String?
+  startTime         DateTime // Always stored in UTC
+  endTime           DateTime // Always stored in UTC
+  timezone          String   // Attendee's timezone
+  status            String   @default("confirmed")
+  createdAt         DateTime @default(now())
   
-  @@index([userId, startTime, endTime, status])
+  @@index([userId, mentorId, startTime, endTime, status])
 }

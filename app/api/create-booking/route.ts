@@ -8,14 +8,22 @@ export async function POST(request: Request) {
     
     const { 
       userId, 
+      mentorId,
       attendeeName, 
-      attendeeEmail, 
+      attendeeEmail,
+      attendeePhone,
+      attendeeCompany,
+      additionalGuests,
+      meetingType,
+      meetingLocation,
+      meetingTitle,
+      notes,
       startTime, 
       slotDuration, 
       attendeeTimezone 
     } = body;
 
-    if (!userId || !attendeeName || !attendeeEmail || !startTime) {
+    if (!userId || !mentorId || !attendeeName || !attendeeEmail || !startTime) {
       return NextResponse.json({
         success: false,
         error: 'Missing required fields'
@@ -24,8 +32,16 @@ export async function POST(request: Request) {
     
     const result = await createBooking({
       userId,
+      mentorId,
       attendeeName,
       attendeeEmail,
+      attendeePhone,
+      attendeeCompany,
+      additionalGuests,
+      meetingType,
+      meetingLocation,
+      meetingTitle,
+      notes,
       startTime: new Date(startTime),
       slotDuration: slotDuration || 30,
       attendeeTimezone: attendeeTimezone || 'UTC'

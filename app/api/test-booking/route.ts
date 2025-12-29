@@ -5,6 +5,15 @@ import { fromZonedTime } from 'date-fns-tz';
 
 export async function GET() {
   try {
+    // Get the first mentor
+    const mentor = await prisma.mentor.findFirst();
+    if (!mentor) {
+      return NextResponse.json({
+        success: false,
+        error: 'No mentors available for booking'
+      });
+    }
+
     // Create a test booking for tomorrow at 10:00 AM NY time
     const tomorrow = addDays(new Date(), 1);
     tomorrow.setHours(10, 0, 0, 0); // 10:00 AM local
@@ -16,6 +25,7 @@ export async function GET() {
     const booking = await prisma.booking.create({
       data: {
         userId: 'cmjphlfnx00003wbgqrdpmyds', // John's ID
+        mentorId: mentor.id,
         attendeeName: 'Test User',
         attendeeEmail: 'test@example.com',
         startTime,

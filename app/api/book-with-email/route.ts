@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { createBooking } from '@/app/api/actions/booking';
 import { addDays } from 'date-fns';
 import { fromZonedTime } from 'date-fns-tz';
+import { prisma } from '@/lib/prisma';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -16,6 +17,18 @@ export async function GET(request: Request) {
   }
 
   try {
+    // Get the user's first mentor
+    const user = await prisma.user.findUnique({
+      where: { id: 'cmjphlfnx00003wbgqrdpmyds' },
+      include: { mentors: { take: 1 } }
+    });
+
+    if (!user?.mentors[0]) {
+      return NextResponse.json({
+        error: 'No mentors available for booking'
+      }, { status: 400 });
+    }
+
     const tomorrow = addDays(new Date(), 1);
     const [hour, minute] = time.split(':').map(Number);
     tomorrow.setHours(hour, minute, 0, 0);
@@ -24,6 +37,7 @@ export async function GET(request: Request) {
     
     const result = await createBooking({
       userId: 'cmjphlfnx00003wbgqrdpmyds',
+      mentorId: user.mentors[0].id,
       attendeeName: name,
       attendeeEmail: email,
       startTime,

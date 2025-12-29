@@ -18,6 +18,7 @@ async function main() {
 
   // Delete existing data
   await prisma.booking.deleteMany();
+  await prisma.mentor.deleteMany();
   await prisma.workingHours.deleteMany();
   await prisma.user.deleteMany();
 
@@ -47,15 +48,50 @@ async function main() {
   }
 
   console.log('✅ Created working hours (Mon-Fri, 9 AM - 5 PM)');
-  
-  // Add your seed data here
-  // Example:
-  // const user = await prisma.user.create({
-  //   data: {
-  //     email: 'demo@example.com',
-  //     name: 'Demo User'
-  //   }
-  // })
+
+  // Create mentors
+  const mentors = await prisma.mentor.createMany({
+    data: [
+      {
+        userId: user.id,
+        name: 'John Mitchell',
+        title: 'Senior Tech Mentor',
+        bio: '10+ years leading engineering teams at Fortune 500 companies. Expert in career transitions and technical growth.',
+      },
+      {
+        userId: user.id,
+        name: 'Sarah Chen',
+        title: 'Career & Interview Coach',
+        bio: 'Specializes in resume optimization, interview prep, and salary negotiation. Helped 500+ candidates land dream jobs.',
+      },
+      {
+        userId: user.id,
+        name: 'Mike Rodriguez',
+        title: 'System Design Expert',
+        bio: 'Platform architect with expertise in scalable systems. Focus on technical interviews and architectural decisions.',
+      },
+      {
+        userId: user.id,
+        name: 'Emma Thompson',
+        title: 'Portfolio & Brand Specialist',
+        bio: 'Builds personal brands and impressive portfolios. Expert in LinkedIn optimization and personal branding strategy.',
+      },
+      {
+        userId: user.id,
+        name: 'David Park',
+        title: 'Startup Advisor',
+        bio: 'Founded 2 successful startups and advised 20+. Deep expertise in entrepreneurship and startup strategy.',
+      },
+      {
+        userId: user.id,
+        name: 'Lisa Anderson',
+        title: 'Product Management Coach',
+        bio: 'Led product teams at tech giants. Specializes in PM interviews, roadmaps, and product strategy mentoring.',
+      },
+    ],
+  });
+
+  console.log('✅ Created 6 default mentors');
   
   console.log('✅ Seed completed successfully')
 }
