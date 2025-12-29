@@ -158,7 +158,6 @@ export default function BookingInterface({ user, mentors }: BookingInterfaceProp
             {selectedMentor && (
               <div className="flex items-center gap-4 p-4 bg-white rounded-xl border border-slate-100/50">
                 <div className="w-12 h-12 bg-gradient-to-br from-purple-100 to-pink-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                <div className="w-12 h-12 bg-gradient-to-br from-purple-100 to-pink-100 rounded-xl flex items-center justify-center flex-shrink-0">
                   <User className="w-6 h-6 text-purple-600" />
                 </div>
                 <div className="text-left">
@@ -379,30 +378,37 @@ export default function BookingInterface({ user, mentors }: BookingInterfaceProp
                       </div>
                     ) : slots.length > 0 ? (
                       slots.map((slot, i) => (
-                        <button
+                        <motion.button
                           key={i}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: i * 0.05 }}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
                           onClick={() => setSelectedSlot(slot)}
-                          className={`w-full py-4 px-6 rounded-2xl font-black transition-all flex items-center justify-between group ${
+                          className={`w-full py-4 px-6 rounded-2xl font-black transition-all flex items-center justify-between group border-2 ${
                             selectedSlot === slot 
-                              ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-100' 
-                              : 'bg-white border-2 border-slate-100 text-slate-700 hover:border-indigo-600 hover:text-indigo-600'
+                              ? 'bg-gradient-to-r from-indigo-600 to-blue-600 text-white shadow-lg shadow-indigo-200 border-transparent' 
+                              : 'bg-white border-slate-100 text-slate-700 hover:border-indigo-600 hover:text-indigo-600 hover:shadow-md hover:shadow-indigo-50'
                           }`}
                         >
-                          {slot.displayTime}
+                          <span className="text-lg">{slot.displayTime}</span>
                           {selectedSlot === slot ? (
-                            <button 
+                            <motion.button
+                              initial={{ opacity: 0, scale: 0.5 }}
+                              animate={{ opacity: 1, scale: 1 }}
                               onClick={(e) => {
                                 e.stopPropagation();
                                 setStep('form');
                               }}
-                              className="bg-white text-indigo-600 px-4 py-1.5 rounded-xl text-sm font-black animate-in fade-in slide-in-from-right-2"
+                              className="bg-white text-indigo-600 px-5 py-2 rounded-xl text-sm font-black shadow-sm hover:bg-indigo-50 transition-colors"
                             >
                               Next
-                            </button>
+                            </motion.button>
                           ) : (
-                            <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-all" />
+                            <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-all transform group-hover:translate-x-1" />
                           )}
-                        </button>
+                        </motion.button>
                       ))
                     ) : (
                       <div className="text-center py-20">
@@ -600,27 +606,47 @@ export default function BookingInterface({ user, mentors }: BookingInterfaceProp
 
       <style jsx global>{`
         .custom-daypicker {
-          --rdp-cell-size: 48px;
+          --rdp-cell-size: 56px;
           --rdp-accent-color: #4f46e5;
           --rdp-background-color: #eef2ff;
           margin: 0;
         }
-        .rdp-day_selected {
-          background-color: var(--rdp-accent-color) !important;
-          border-radius: 16px !important;
+        .rdp-caption_label {
+          font-size: 1.25rem !important;
           font-weight: 900 !important;
-        }
-        .rdp-day:hover:not(.rdp-day_selected) {
-          background-color: var(--rdp-background-color) !important;
-          border-radius: 16px !important;
-          color: var(--rdp-accent-color) !important;
+          color: #1e293b !important;
+          padding-bottom: 1rem !important;
         }
         .rdp-head_cell {
-          font-size: 0.75rem !important;
-          font-weight: 900 !important;
+          font-size: 0.875rem !important;
+          font-weight: 800 !important;
           text-transform: uppercase !important;
           letter-spacing: 0.1em !important;
-          color: #94a3b8 !important;
+          color: #64748b !important;
+          padding-bottom: 0.5rem !important;
+        }
+        .rdp-day {
+          font-size: 1rem !important;
+          font-weight: 600 !important;
+          transition: all 0.2s ease !important;
+          border-radius: 14px !important;
+        }
+        .rdp-day_selected {
+          background: linear-gradient(135deg, #4f46e5 0%, #2563eb 100%) !important;
+          color: white !important;
+          box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.4) !important;
+          transform: scale(1.1) !important;
+          font-weight: 900 !important;
+        }
+        .rdp-day:hover:not(.rdp-day_selected):not(.rdp-day_disabled) {
+          background-color: var(--rdp-background-color) !important;
+          color: var(--rdp-accent-color) !important;
+          transform: scale(1.1) !important;
+          font-weight: 900 !important;
+          box-shadow: 0 4px 12px rgba(79, 70, 229, 0.1) !important;
+        }
+        .rdp-button:hover:not([disabled]) {
+          background-color: #f1f5f9 !important;
         }
         .custom-scrollbar::-webkit-scrollbar {
           width: 6px;
@@ -629,11 +655,11 @@ export default function BookingInterface({ user, mentors }: BookingInterfaceProp
           background: transparent;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: #e2e8f0;
+          background: #cbd5e1;
           border-radius: 10px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: #cbd5e1;
+          background: #94a3b8;
         }
       `}</style>
     </div>
